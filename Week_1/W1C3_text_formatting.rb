@@ -7,30 +7,28 @@
   Licensed under the MIT license
 =end
 
-def decorate(integer, max_number_of_chars)
-  decoration_string = ''
-  integer.times do
-    decoration_string << ("=" * (max_number_of_chars+1))
-  end
-  (decoration_string << "\n")
+def decoration(number, line_length)
+  ("=" * number * (line_length+1)) << "\n"
 end
 
 def multiplication_table(integer, heading = '', decorate = false)
-  max_number_of_chars = (integer*integer).to_s.length
+  line_length =  (integer*integer).to_s.length
 
   table = ''
   table << heading << "\n"  unless heading.empty?
-
-  table << decorate(integer, max_number_of_chars) unless ! decorate
-
-  (1..integer).map do |x|
-    (1..integer).map do |y|
-      table << "#{(x*y).to_s.rjust(max_number_of_chars)} "
+  table << decoration(integer, line_length).to_s if decorate
+  if integer == 0
+    table << "0\n"
+  else
+    (1..integer).map do |x|
+      (1..integer).map do |y|
+        table << "#{(x*y).to_s.rjust(line_length)} "
+      end
+      table << "\n"
     end
-    table << "\n"
   end
 
-  table << decorate(integer, max_number_of_chars) unless ! decorate
+  table << decoration(integer, line_length).to_s if decorate
 
   table.to_s
 end

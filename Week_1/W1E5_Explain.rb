@@ -12,3 +12,6 @@ puts my_string
 # To explicitely call the method, parenthesis can be added to method call.
 
 puts my_string()
+
+# Object's method "method" takes a string or a symbol and returns the an object encapsulating the bound method
+puts method(:my_string).call

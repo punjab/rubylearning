@@ -13,6 +13,8 @@
    => 0.00
    >> fahrenheit_to_celcius(41)
    => 5.00
+   >> format("%0.2f", fahrenheit_to_celcius('Blah'))
+   => "-17.78"
 =end
 
 def fahrenheit_to_celcius(temperature_in_fahrenheit)
@@ -22,10 +24,6 @@ end
 if __FILE__ == $0
   puts "What is the temperature today in Fahrenheit?"
   STDOUT.flush
-  temperature_in_fahrenheit = gets.chomp
-  if temperature_in_fahrenheit.to_i.to_s == temperature_in_fahrenheit
-    puts "#{temperature_in_fahrenheit} degree Fahrenheit is equivalent to #{format("%.2f", fahrenheit_to_celcius(temperature_in_fahrenheit))} degree Centigrade."
-  else
-    puts "Please enter a valid temperature."
-  end
+  temperature_in_fahrenheit = gets.to_f
+  puts format("%.2f degree Fahrenheit is equivalent to %.2f degree celcius.", temperature_in_fahrenheit, fahrenheit_to_celcius(temperature_in_fahrenheit))
 end
