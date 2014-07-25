@@ -10,10 +10,10 @@ def prompt(text, prompt_symbol = ">>")
   print "#{text} #{prompt_symbol} "
   STDOUT.flush
   input = gets
-  input.downcase =~ /^exit/ ? confirm_and_exit(input) : input
+  input
 end
 
-def confirm_and_exit(input)
+def confirm_and_exit
   puts "Do you really want to exit the prompt? Y/N"
   STDOUT.flush
   user_response = gets
@@ -22,6 +22,10 @@ def confirm_and_exit(input)
 end
 
 # Test the method
+response = ''
 until false
-  puts prompt('Say Something: ', '$')
+  if response.downcase =~ /^exit$/
+    confirm_and_exit
+  end
+  puts response = prompt('Say Something: ', '$')
 end

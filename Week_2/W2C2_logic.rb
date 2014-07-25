@@ -15,3 +15,11 @@ puts 5 < 3 ? "yeah" : "boo" #=> nil
 # Re-attempt
 puts 5 > 3 && "yeah" || "boo"
 puts 5 < 3 && "yeah" || "boo"
+
+# Another way, using spaceship operator
+def logic_challenge(first, last)
+    {-1 => 'boo', 0 => 'oh', 1 => 'yeah'}[first <=> last]
+end
+[[3, 5], [5, 3], ['a', 'z'], ['wow', 'wow']].each do |first, last|
+    puts 'first = %s, last = %s, is %s' % [first, last, logic_challenge(first, last)]
+end
