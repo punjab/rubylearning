@@ -17,12 +17,7 @@ def fizzbuzz(num, rules={})
   result.empty? ? num : result
 end
 
-# fizz = Proc.new{|number| number % 3 == 0}
-# buzz = Proc.new{|number| number % 5 == 0}
-# dazz = Proc.new{|number| number % 7 == 0}
-# kezz = Proc.new{|number| number % 11 == 0}
-
 1.upto(100) do |num|
-  puts fizzbuzz(num) << "and" << fizzbuzz(num, {7 => "Dazz"})
+  puts fizzbuzz(num, {7 => "Dazz"})
 end
 
