@@ -13,12 +13,14 @@ def prompt(text, prompt_symbol = ">>")
   @last_response = gets
 end
 
+def affirmative?(response)
+  !! (response.downcase =~ /^ye?s?$|Youbetcya/i)
+end
+
 def confirm_and_exit
   puts "Do you really want to exit the prompt? Y/N"
   STDOUT.flush
-  user_response = gets
-  return true if user_response.downcase =~ /^ye?s?$|Youbetcya/i
-  print @last_response
+  affirmative?(gets) or print @last_response
 end
 
 # Test the method
