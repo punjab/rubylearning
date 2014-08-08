@@ -11,18 +11,10 @@ collection = [12, 23, 456, 123, 4579]
 
 # post coffee code
 def odd_or_even(num)
-  num.even? ? "even" : "odd"
+  # num.even? ? "even" : "odd"
+  {true => "even", false => "odd"}[num.even?]
 end
 
 collection.each do |number|
   puts "#{number} :  #{odd_or_even(number)}"
 end
-
-
-# Pre-coffee code follows = borrowed complexity!
-
-# even_or_odd = {true => "even", false => "odd"}
-# result = Hash[collection.zip(collection.map{|e| even_or_odd[e.even?]})]
-# result.each do |key, value|
-#   puts "#{key} : #{value}"
-# end
