@@ -7,6 +7,27 @@ $DEBUG = true # easy way to toggle debugging puts
   Date: 2014-08-15
   Licensed under the MIT license
 =end
+
+=begin
+doctest: setup
+>> @granny = Grandma.new(1930..1950)
+doctest: hears? returns a true or false (or something or nil)
+>> @granny.hears?("not shouted")
+=> false
+doctest: hears? "SHOUTED" should be heard
+>> @granny.hears?("SHOUTED WORDS")
+=> true
+doctest: She hears "BYE" but still returns false
+>> @granny.hears? "BYE"
+=> false
+doctest: says("SOMETHING")
+>> @granny.says("SOMETHING").include? "NOT SINCE"
+=> true
+doctest: Responds to not shouting
+>> @granny.says('not shouting').include? 'SPEAK UP'
+=> true
+=end
+
 module Voicetone
   refine String do
     def shouted?
@@ -15,8 +36,6 @@ module Voicetone
   end
 end
 
-# doctest: setup
-# >> @granny = Grandma.new(1930..1950)
 class Grandma
   using Voicetone
 
@@ -26,49 +45,24 @@ class Grandma
     @deafness = deafness
   end
 
-  # doctest: hears? returns a true or false (or something or nil)
-  # >> @granny.hears?("not shouted")
-  # => false
-  # doctest: hears? "SHOUTED" should be heard
-  # >> @granny.hears?("SHOUTED WORDS")
-  # => true
-  # doctest: She hears "BYE" but still returns false
-  # >> @granny.hears? "BYE"
-  # => false
   def hears?(words)
     words = words.chomp
     words.shouted? && words != 'BYE'
   end
 
-  # doctest: says("SOMETHING")
-  # >> @granny.says("SOMETHING").include? "NOT SINCE"
-  # => true
-  # doctest: Responds to not shouting
-  # >> @granny.says('not shouting').include? 'SPEAK UP'
-  # => true
-  # doctest: BYE three times in a row
-  # >> 4.times.map { @granny.says('BYE') }
-  # => ''
   def says(i_said)
-    bye_count(i_said)
-    raise "We are done" if done?(i_said)
-    done?(i_said) == true || hears?(i_said) ?
+    if i_said.chomp =~ /^BYE$/
+      @bye_count += 1
+      return @bye_count != 3 ? '' : false
+    else
+      @bye_count = 0
+    end
+
+    hears?(i_said) ?
       "NO, NOT SINCE #{rand(@years_remembered)}" :
       'HUH?! SPEAK UP, SONNY!'
   end
-  private
-  def done?(words)
-    if $DEBUG
-      puts @bye_count
-      puts @deafness
-    end
-    bye_count words
-    @bye_count == @deafness
-  end
 
-  def bye_count(word)
-    word.chomp == /^BYE$/ ? @bye_count += 1 : @bye_count = 0
-  end
 end
 
 if __FILE__ == $0 # application or library guard
@@ -78,6 +72,7 @@ if __FILE__ == $0 # application or library guard
   response = ''
   while response
     print "Say something to grandma: "
-    puts response if response =  granny.says(gets)
+    i_say = gets.chomp
+    puts response if !i_say.empty?  and response =  granny.says(i_say)
   end
 end

@@ -1,0 +1,14 @@
+1ae_dog_class.rb
+1c_adding_individual_dog_behaviors_challenge.rb
+1e_dog_class.rb
+2c_statistics_challenge_word_counting.rb
+2e_rectangle_class.rb
+3e_deaf_grandma_modified.rb
+4e_swap_contents.rb
+5e_dir_inventory.rb
+abstract_class.rb
+metaprogramming.rb
+metaprogramming2.rb
+old_inventory.txt
+text1.txt
+text2.txt
