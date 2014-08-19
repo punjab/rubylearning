@@ -12,3 +12,10 @@ require_relative "../4_week/playfair_cipher"
 #   end
 # end
 
+
+describe "Test Encoding" do
+  it "should create digraphs" do
+    encode("Congress shall").must_equal("CO NG RE SX SZ SH AL LX")
+    encode("Hide the gold in the tree stump").must_equal("HI DE TH EG OL DI NT HE TR EX ES TU MP")
+  end
+end
