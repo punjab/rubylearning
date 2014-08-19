@@ -8,24 +8,12 @@
 =end
 
 =begin
-  doctest: Check if 2000 is is leap or not
-  >> leap_year?(2000)
-  => true
-  doctest: check 2004
-  >> leap_year?(2004)
-  => true
-  doctest: check 1900
-  >> leap_year?(1900)
-  => false
-  doctest: check 2005
-  >> leap_year?(2005)
-  => false
-  doctest: Minutes in 2000 - leap year
-  >> number_of_minutes(2000)
-  =>  527040
-  doctest: Minutes in 2005 - not leap
-  >> number_of_minutes(2005)
-  =>  525600
+      doctest: Minutes in 2000 - leap year
+      >> number_of_minutes(2000)
+      =>  527040
+      doctest: Minutes in 2005 - not leap
+      >> number_of_minutes(2005)
+      =>  525600
 =end
 class Fixnum
   def divisible_by?(number)
@@ -37,6 +25,21 @@ class Fixnum
   end
 end
 
+=begin
+This method should do a leap year check and return true of false
+      doctest: Check if 2000 is is leap or not
+      >> leap_year?(2000)
+      => true
+      doctest: check 2004
+      >> leap_year?(2004)
+      => true
+      doctest: check 1900
+      >> leap_year?(1900)
+      => false
+      doctest: check 2005
+      >> leap_year?(2005)
+      => false
+=end
 def leap_year?(year)
   year.divisible_by?(400) || year.not_divisible_by?(100) && year.divisible_by?(4)
   # if (year % 100 == 0)

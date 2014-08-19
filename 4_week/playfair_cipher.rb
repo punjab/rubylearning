@@ -7,12 +7,6 @@
   Licensed under the MIT license
 =end
 
-=begin
-  doctest: Form inpute message
-  >> input_message('Hide the gold in the tree stump')
-  => "HIDETHEGOLDINTHETREXESTUMP"
-=end
-
 def create_table(text)
   result = ''
   letters = text.upcase.scan(/[A-Za-z]/)

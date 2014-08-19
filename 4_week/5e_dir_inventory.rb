@@ -8,8 +8,14 @@
 =end
 
 # Print inventory one liner
-# Dir.glob('**/*').sort.each {|f| puts f}
+def make_inventory
+  Dir.glob('**/*').sort.each {|f| puts f}
+end
 
 # Diff oneliner
-puts diff =  IO.readlines('new_inventory.txt') - IO.readlines('old_inventory.txt')
+def diff(old_file, new_file)
+  IO.readlines(new_file) - IO.readlines(old_file)
+end
+
+puts diff('new_inventory.txt','old_inventory.txt')
 
