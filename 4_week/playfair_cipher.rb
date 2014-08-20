@@ -7,13 +7,6 @@
   Licensed under the MIT license
 =end
 
-# require 'Matrix'
-#
-# def matrix(text)
-#   alphabets = clean_text(text)
-#   Matrix.build(5){ alphabets.shift }
-# end
-
 def matrix(text)
   alphabets = clean_text(text)
   square = Array.new(5){Array.new(5,0)}
@@ -31,20 +24,6 @@ def clean_text(text)
   alphabets.each.with_index {|e,i| alphabets[i] = 'I' if e == 'J'}
   alphabets.uniq!
 end
-
-# def matrix(text)
-#   square = Array.new(5){Array.new(5,0)}
-#   letters = text.upcase.scan(/[A-Za-z]/)
-#   alphabets = letters + (('A'..'Z').to_a - letters)
-#   alphabets.each.with_index {|e,i| alphabets[i] = 'I' if e == 'J'}
-#   alphabets.uniq!
-#   5.times do |i|
-#     5.times do |j|
-#       square[i][j] = alphabets.shift
-#     end
-#   end
-#   square
-# end
 
 =begin
   doctest: Create a 5x5 table for "playfair example"
@@ -71,15 +50,6 @@ def display_table(text)
   result
 end
 
-# def display_table(text)
-#   result = ''
-#   square = matrix(text)
-#   5.times do |i|
-#     result << square.row(i).to_a.join(' ') << '\n'
-#   end
-#   result
-# end
-
 =begin
   doctest: prepare message "Congress shall"
   >> display_message("Congress shall")
@@ -103,14 +73,16 @@ def make_pairs(text)
 end
 
 def scan_for_indentical(t)
-  text = t.upcase.gsub(/\s+/, "")
-  insert_char = 'X'
+  text = t.upcase.scan(/[A-Za-z]/).join
+  insert_char = ''
   text.each_char.with_index do |e, i|
     if i.odd?
       if text[i-1] == text[i]
-        text.insert(i, insert_char)
         insert_char = (insert_char == 'X' ? 'Z' : 'X')
+        text.insert(i, insert_char)
+        next
       end
+      insert_char = 'Z'
     end
   end
   text
@@ -134,7 +106,21 @@ end
   >> encoded = %w(HI DE TH EG OL DI NT HE TR EX ES TU MP).map{|x| encode_pair(x, m)}
   >> encoded.join(' ')
   => "BM OD ZB XD NA BE KU DM UI XM MO UV IF"
+
+  doctest: Do extended test
+  >> key = 'First Amendment'
+  >> text = 'Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the government for a redress of grievances.'
+  >> encode(text, key)
+  => "OWEHEGRYTYNQBVOADBNDPOMVEGRQMGFREHMDNRFDLVRTCNNDIUISAPRCMWMQEXIPCSCFFREHSKAREGGRGRGEOMRNSKGEMPILFEGFTMCREHSKAREGNAWCLIRQGRMGCQIPIFGNXENRIQSFGNSRHKIUIFGNXGPQPAXGMBNMLVZSLMRYRNACPAMDKDPQDRRFMWDSGNCPXASEENDSILFEEGETNRIQRBSRAXMDGMRY"
 =end
+
+def encode(corpus, key_phrase)
+  cleaned_corpus = scan_for_indentical(corpus)
+  array_of_pairs = make_pairs(cleaned_corpus)
+  cipher_key = matrix(key_phrase)
+  array_of_encoded_pairs = array_of_pairs.map{|pair| encode_pair(pair, cipher_key)}
+  array_of_encoded_pairs.join
+end
 
 def encode_pair(pair, matrix)
   rule1 = row_encode(pair, matrix)
