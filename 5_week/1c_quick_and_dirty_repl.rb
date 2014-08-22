@@ -6,17 +6,17 @@
   Date: 2014-08-21
   Licensed under the MIT license
 =end
-puts "Starting home distilled simple REPL in 3..2..1.."
+puts "Welcome to MY-RB. You are using #{`ruby -v`.chomp}. Have fun ;)"
 response = ''
 until response =~ /^exit$/
-  prompt = "$ "
+  prompt = ">> "
   print prompt
-  response = gets.chomp
+  response = gets
   begin
     output = eval(response)
+    puts "#=> \033[37m#{output}\033[0m"
   rescue => e
-    puts "Invalid input : #{e.class}"
+    puts "\033[31m#{e.class} : #{e.message}\033[0m"
   end
-  puts "=> #{output}"
 end
 puts "You are exiting our REPL"
