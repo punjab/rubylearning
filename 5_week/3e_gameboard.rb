@@ -8,27 +8,26 @@
 =end
 
 class GameBoard
-  def set_locations_cells(locations)
-    @locations_size = locations.size
-    @cells = Array.new(7)
-    @cells.each_index do |index|
-      @cells[index] = true if locations.include?(index)
-    end
+  def set_locations_cells(targets)
+    @targets = targets
   end
 
   def check_yourself(guess_string)
-    @no_of_hits ||= 0
     guess = guess_string.to_i
-    if @cells[guess]
-      @no_of_hits += 1
-      @cells[guess] = false
-      if @no_of_hits == @locations_size
-        puts "End"
-        return "kill"
-      end
-      puts "Hit"
+    if @targets.include? guess
+      @targets.delete guess
+      check_hit_status
     else
       puts "Miss"
+    end
+  end
+  
+  def check_hit_status
+    if @targets.empty?
+      puts "End"
+      return "kill"
+    else
+      puts "hit"
     end
   end
 
