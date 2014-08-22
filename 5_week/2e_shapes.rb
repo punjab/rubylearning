@@ -20,19 +20,20 @@ class Shape
   def play
     "Playing #{@sound}"
   end
+
+  def click
+    [rotate, play].join("\n")
+  end
 end
 
 class Square < Shape; end
 class Circle < Shape; end
 class Triangle < Shape; end
 
-s = Square.new("square", "Banjo!")
-c = Circle.new("circle", "Moo!")
-t = Triangle.new("triangle", 'Violen!')
-
-puts s.rotate
-puts s.play
-puts c.rotate
-puts c.play
-puts t.rotate
-puts t.play
+[
+  Square.new("square", "Banjo!"),
+  Circle.new("circle", "Moo!"),
+  Triangle.new("triangle", 'Violen!')
+].each do |shape|
+  puts shape.click
+end

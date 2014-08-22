@@ -13,12 +13,16 @@ class Shape
     @sound = sound
   end
 
-  def click
+  def rotate
     "#{@shape} clicks by 360 degrees"
   end
 
   def play
     "Playing #{@sound}.aif"
+  end
+
+  def click
+    [rotate, play].join("\n")
   end
 end
 
@@ -27,7 +31,7 @@ class Circle < Shape; end
 class Triangle < Shape; end
 
 class Amoeba < Shape
-  def click
+  def rotate
     "#{@shape} clicks around one end."
   end
 
@@ -36,17 +40,11 @@ class Amoeba < Shape
   end
 end
 
-s = Square.new("square", "Banjo!")
-c = Circle.new("circle", "Moo!")
-t = Triangle.new("triangle", 'Violen!')
-a = Amoeba.new("ameoba", 'Nom Nom Nom!')
-
-puts s.click
-puts s.play
-puts c.click
-puts c.play
-puts t.click
-puts t.play
-
-puts a.click
-puts a.play
+[
+  Square.new("square", "Banjo!"),
+  Circle.new("circle", "Moo!"),
+  Triangle.new("triangle", 'Violen!'),
+  Amoeba.new("ameoba", 'Nom Nom Nom!')
+].each do |shape|
+  puts shape.click
+end
