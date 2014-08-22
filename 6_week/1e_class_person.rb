@@ -8,12 +8,14 @@
 =end
 
 class Person
-  def initialize
-    @balance = 0
-  end
-
   attr_reader :balance
+
+  def initialize(balance)
+    @balance = balance
+  end
 end
 
-p = Person.new
+p = Person.new('stable')
 puts p.balance
+q = Person.new(300000)
+puts q.balance

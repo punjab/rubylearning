@@ -8,8 +8,16 @@
 =end
 
 def countdown(seconds=3)
+  counter = seconds
   puts "Launchin in ..."
-  seconds.times {|sec|  puts sec; sleep 1}
+  seconds.times { puts counter; counter -= 1; sleep 1}
+end
+
+def colorize(output)
+  if `tput colors`.chomp.to_i < 8
+    return output.gsub(/\033\[\d+m/, "")
+  end
+  output
 end
 
 ARGV.empty? ? countdown : countdown(ARGV[0])
@@ -29,9 +37,3 @@ until response =~ /^exit$/
 end
 puts "You are exiting our REPL"
 
-def colorize(output)
-  if `tput colors`.chomp.to_i < 8
-    return output.gsub(/\033\[\d+m/, "")
-  end
-  output
-end

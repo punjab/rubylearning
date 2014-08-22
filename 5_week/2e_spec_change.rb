@@ -11,14 +11,16 @@ class Shape
   def initialize(shape, sound)
     @shape = shape
     @sound = sound
+    @direction = 'by 360 degrees'
+    @extension = 'aif'
   end
 
   def rotate
-    "#{@shape} clicks by 360 degrees"
+    "#{@shape} rotates #{@direction}"
   end
 
   def play
-    "Playing #{@sound}.aif"
+    "Playing #{@sound}.#{@extension}"
   end
 
   def click
@@ -31,12 +33,10 @@ class Circle < Shape; end
 class Triangle < Shape; end
 
 class Amoeba < Shape
-  def rotate
-    "#{@shape} clicks around one end."
-  end
-
-  def play
-    "Playing #{@sound}.hif"
+  def initialize(*args)
+    super
+    @direction = 'around a point on one end.'
+    @extension = 'hif'
   end
 end
 
