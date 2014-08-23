@@ -19,19 +19,17 @@ class GameBoard
     finished?
   end
   
-  def hit_or_miss
-    @locations.include?(@guess) ? "hit" : "miss"
-  end
-  
-  def remove_target
-    @locations.delete @guess
-  end
-  
-  def finished?
-    if @locations.empty?
-      puts "End"
-      "kill"
+  private
+    def hit_or_miss
+      @locations.include?(@guess) ? "hit" : "miss"
     end
-  end
+  
+    def remove_target
+      @locations.delete @guess
+    end
+  
+    def finished?
+      (puts "End"; "kill") if @locations.empty?
+    end
   
 end
