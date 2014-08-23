@@ -20,15 +20,18 @@ class Analyzer
   end
 
   def report(analysis_result)
-    output = ''
-    output << "***********************\n"
-    output << "    Analysis Report    \n"
-    output << "***********************\n"
+    output = <<REPORT
+    ***********************
+        Analysis Report    
+    ***********************
+REPORT
     analysis_result.each do |key, value|
       output << "#{key.to_s.gsub(/_/, ' ').capitalize} : #{value}\n"
     end
-    output << "Average number of words per sentence: %.2f \n" % (analysis_result[:word_count]/analysis_result[:sentence_count].to_f)
-    output << "Average number of sentences per paragraph: %.2f \n" % (analysis_result[:sentence_count]/analysis_result[:paragraph_count].to_f)
+    output << "Average number of words per sentence: %.2f \n" % 
+              (analysis_result[:word_count]/analysis_result[:sentence_count].to_f)
+    output << "Average number of sentences per paragraph: %.2f \n" % 
+              (analysis_result[:sentence_count]/analysis_result[:paragraph_count].to_f)
     output
   end
 end
@@ -36,9 +39,14 @@ end
 
 begin
   require 'logger'
-  $LOG = Logger.new('log_file.log', 'monthly')
+  print "Please provide a name for log file. Default (log_file.log): "
+  logfile = gets.chomp
+  logfile = 'log_file.log' if logfile.empty?
+  $LOG = Logger.new(logfile, 'monthly')
   $LOG.level = Logger::INFO
-  filename = 'text.txt'
+  
+  print "File to be analyzed? "
+  filename = gets.chomp
   begin
     corpora = IO.read(filename)
     a = Analyzer.new
@@ -46,7 +54,7 @@ begin
     puts a.report(analysis_result)
     $LOG.info("Analysis report on #{filename} successful.")
   rescue Exception => e
-    $LOG.error "#{e.class} Error occured: #{e.message}"
-    puts "Error Occured. Refer log file for details!"
+    $LOG.error "#{e.class} error occured: #{e.message}"
+    puts "#{e.class} error Occured. Refer log file for details!"
   end
 end if  __FILE__ == $0

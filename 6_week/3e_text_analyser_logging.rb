@@ -20,15 +20,18 @@ class Analyzer
   end
 
   def report(analysis_result)
-    output = ''
-    output << "***********************\n"
-    output << "    Analysis Report    \n"
-    output << "***********************\n"
+    output = <<REPORT
+    ***********************
+        Analysis Report    
+    ***********************
+REPORT
     analysis_result.each do |key, value|
       output << "#{key.to_s.gsub(/_/, ' ').capitalize} : #{value}\n"
     end
-    output << "Average number of words per sentence: %.2f \n" % (analysis_result[:word_count]/analysis_result[:sentence_count].to_f)
-    output << "Average number of sentences per paragraph: %.2f \n" % (analysis_result[:sentence_count]/analysis_result[:paragraph_count].to_f)
+    output << "Average number of words per sentence: %.2f \n" %       
+              (analysis_result[:word_count]/analysis_result[:sentence_count].to_f)
+    output << "Average number of sentences per paragraph: %.2f \n" % 
+              (analysis_result[:sentence_count]/analysis_result[:paragraph_count].to_f)
     output
   end
 end
@@ -36,9 +39,15 @@ end
 
 begin
   require 'logger'
-  $LOG = Logger.new('log_file.log', 'monthly')
-  filename = 'text.txt'
+  print "File to be analyzed?"
+  filename = gets.chomp
   corpora = IO.read(filename)
+  
+  print "Please provide a name for log file. Default: log_file.log"
+  logfile = gets.chomp
+  logfile = 'log_file.log' if logfile.empty?
+  $LOG = Logger.new(logfile, 'monthly')
+  
   a = Analyzer.new
   analysis_result = a.analyze_text(corpora)
   puts a.report(analysis_result)
