@@ -11,19 +11,27 @@ class MP3
   def initialize(song)
     @song = song
   end
-  
+
   def id3_tags
+    schema = {
+      title: 30,
+      artist: 30,
+      album: 30,
+      year: 4,
+      comment: 30
+    }
     if tag_present?
-      tags = []
       last_125_bytes = IO.read(@song)[-125..-1]
-      last_125_bytes.force_encoding('UTF-8').scan(/.{30}/).each do |tag|
-        tags << tag.unpack('A30')[0]
+      index = 0
+      tags = {}
+      schema.each do |tag, size|
+        tags[tag] = last_125_bytes.byteslice(index, size).strip
+        index += size
       end
-      return tags
+      tags
     end
-    return "No TAG id3 tag found!"
   end
-  
+
   private
     def tag_present?
       IO.read(@song)[-128..-126] == 'TAG'
@@ -31,6 +39,10 @@ class MP3
 end
 
 song = MP3.new('song.mp3')
-p song.id3_tags
-
+tags = song.id3_tags
+if tags
+  tags.each do |tag, value|
+    puts "#{tag} : #{value}"
+  end
+end
 
