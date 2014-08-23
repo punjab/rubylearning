@@ -8,27 +8,30 @@
 =end
 
 class GameBoard
-  def set_locations_cells(targets)
-    @targets = targets
+  def set_locations_cells(locations)
+    @locations = locations
   end
 
-  def check_yourself(guess_string)
-    guess = guess_string.to_i
-    if @targets.include? guess
-      @targets.delete guess
-      check_hit_status
-    else
-      puts "Miss"
+  def check_yourself(guess) # This method returns 'kill' or nil
+    @guess = guess.to_i
+    puts guess_result = hit_or_miss
+    remove_target if guess_result == "hit"
+    finished?
+  end
+  
+  def hit_or_miss
+    @locations.include?(@guess) ? "hit" : "miss"
+  end
+  
+  def remove_target
+    @locations.delete @guess
+  end
+  
+  def finished?
+    if @locations.empty?
+      puts "End"
+      "kill"
     end
   end
   
-  def check_hit_status
-    if @targets.empty?
-      puts "End"
-      return "kill"
-    else
-      puts "hit"
-    end
-  end
-
 end
