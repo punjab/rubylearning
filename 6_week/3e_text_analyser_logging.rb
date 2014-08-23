@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby -wKU
 =begin
-  Name: W3E7_analyzer.rb
-  Description: Text Analyzer
+  Name: 3e_text_analyser_logging.rb
+  Description: Text Analyzer with Logging
   Author: Arvinder Kang
-  Date: 2014-08-05
+  Date: 2014-08-23
   Licensed under the MIT license
 =end
+
 class Analyzer
   def analyze_text(text)
     {
@@ -36,16 +37,10 @@ end
 begin
   require 'logger'
   $LOG = Logger.new('log_file.log', 'monthly')
-  $LOG.level = Logger::INFO
   filename = 'text.txt'
-  begin
-    corpora = IO.read(filename)
-    a = Analyzer.new
-    analysis_result = a.analyze_text(corpora)
-    puts a.report(analysis_result)
-    $LOG.info("Analysis report on #{filename} successful.")
-  rescue Exception => e
-    $LOG.error "#{e.class} Error occured: #{e.message}"
-    puts "Error Occured. Refer log file for details!"
-  end
+  corpora = IO.read(filename)
+  a = Analyzer.new
+  analysis_result = a.analyze_text(corpora)
+  puts a.report(analysis_result)
+  $LOG.info("Analysis report on #{filename} successful.")
 end if  __FILE__ == $0
