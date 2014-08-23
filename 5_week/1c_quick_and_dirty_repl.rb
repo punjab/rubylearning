@@ -19,7 +19,7 @@ END
   exit
 end
 
-class Prompt
+class Repl
   def countdown(seconds=3)
     counter = seconds
     print "Launchin in ..."
@@ -41,16 +41,14 @@ end
 
 
 if __FILE__ == $0
-  repl = Prompt.new
+  repl = Repl.new
   ARGV.empty? ? repl.countdown : repl.countdown(ARGV[0].to_i)
   puts "Welcome to MY-RB. You are using #{`ruby -v`.chomp}. Have fun ;)"
   response = ''
-  
   until response =~ /^exit$/
-    prompt = ">> "
-    print prompt
-    response = STDIN.gets
-    response = repl.ask(response)
+    print ">> "
+    input = STDIN.gets
+    response = repl.ask(input)
     puts response
   end
   puts "You are exiting our REPL"

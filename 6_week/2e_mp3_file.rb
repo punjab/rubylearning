@@ -11,7 +11,11 @@ class MP3
   def initialize(song)
     @song = song
   end
-  def id3_tag
-    @song.read(@song))
+  def id3
+    @tag = IO.read(@song)[-128..-1]
+    @tag.unpack('xxxA30')
   end
 end
+
+song = MP3.new('song.mp3')
+p song.id3
