@@ -26,30 +26,10 @@ class Prompt
     seconds.times { print "#{counter}..."; counter -= 1; sleep 1}
     puts
   end
-
-  def run
-    ARGV.empty? ? countdown : countdown(ARGV[0].to_i)
-    puts "Welcome to MY-RB. You are using #{`ruby -v`.chomp}. Have fun ;)"
-    response = ''
-    until response =~ /^exit$/
-      prompt = ">> "
-      print prompt
-      response = STDIN.gets
-      response = Interpreter.new(response)
-      puts response
-    end
-    puts "You are exiting our REPL"
-  end
-end
-
-class Interpreter
-  def initialize(input)
-    @input = input
-  end
-
-  def to_s
+  
+  def ask(input)
     begin
-      output ||= eval(@input)
+      output ||= eval(input)
       result = "#=> \033[37m#{output}\033[0m"
     rescue => e
       result =  "\033[31m#{e.class} : #{e.message}\033[0m"
@@ -59,8 +39,20 @@ class Interpreter
   end
 end
 
+
 if __FILE__ == $0
-  prompt = Prompt.new
-  prompt.run
+  repl = Prompt.new
+  ARGV.empty? ? repl.countdown : repl.countdown(ARGV[0].to_i)
+  puts "Welcome to MY-RB. You are using #{`ruby -v`.chomp}. Have fun ;)"
+  response = ''
+  
+  until response =~ /^exit$/
+    prompt = ">> "
+    print prompt
+    response = STDIN.gets
+    response = repl.ask(response)
+    puts response
+  end
+  puts "You are exiting our REPL"
 end
 

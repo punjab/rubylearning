@@ -8,9 +8,9 @@
 =end
 
 class Shape
-  def initialize(shape, sound, direction = 'by 360 degrees', extension = 'aif')
-    @shape = shape
-    @sound = sound
+  def initialize(shape = nil, sound = nil, direction = 'by 360 degrees', extension = 'aif')
+    @shape ||= self.class.name
+    @sound ||= self.class.name
     @direction = direction
     @extension = extension
   end
@@ -35,7 +35,7 @@ class Amoeba < Shape; end
 
 [
   Square.new("square", "Banjo!"),
-  Circle.new("circle", "Moo!"),
+  Circle.new,
   Triangle.new("triangle", 'Violen!'),
   Amoeba.new("ameoba", 'Nom Nom Nom!', 'around a point on one end.','hif')
 ].each do |shape|
