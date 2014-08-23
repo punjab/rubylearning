@@ -8,11 +8,11 @@
 =end
 
 class Shape
-  def initialize(shape, sound)
+  def initialize(shape, sound, direction = 'by 360 degrees', extension = 'aif')
     @shape = shape
     @sound = sound
-    @direction = 'by 360 degrees'
-    @extension = 'aif'
+    @direction = direction
+    @extension = extension
   end
 
   def rotate
@@ -31,20 +31,13 @@ end
 class Square < Shape; end
 class Circle < Shape; end
 class Triangle < Shape; end
-
-class Amoeba < Shape
-  def initialize(*args)
-    super
-    @direction = 'around a point on one end.'
-    @extension = 'hif'
-  end
-end
+class Amoeba < Shape; end
 
 [
   Square.new("square", "Banjo!"),
   Circle.new("circle", "Moo!"),
   Triangle.new("triangle", 'Violen!'),
-  Amoeba.new("ameoba", 'Nom Nom Nom!')
+  Amoeba.new("ameoba", 'Nom Nom Nom!', 'around a point on one end.','hif')
 ].each do |shape|
   puts shape.click
 end
