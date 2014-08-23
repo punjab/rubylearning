@@ -1,4 +1,6 @@
 # Ignore Mac DS Store files
 .DS_Store
-
+*/*.mp3
+*/*.txt
+*/*.log
 doc/
