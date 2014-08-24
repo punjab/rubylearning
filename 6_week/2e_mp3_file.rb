@@ -8,25 +8,25 @@
 =end
 
 class MP3
+  SCHEMA = {
+    title: 30,
+    artist: 30,
+    album: 30,
+    year: 4,
+    comment: 30
+  }
+  
   def initialize(song)
     @song = song
   end
 
   def id3_tags
-    schema = {
-      title: 30,
-      artist: 30,
-      album: 30,
-      year: 4,
-      comment: 30
-    }
     if tag_present?
-      last_125_bytes = IO.read(@song)[-125..-1]
-      index = 0
-      tags = {}
-      schema.each do |tag, size|
-        tags[tag] = last_125_bytes.byteslice(index, size).strip
-        index += size
+      metadata = read_metadata
+      index, tags = 0, {}
+      SCHEMA.each do |tag_name, tag_length|
+        tags[tag_name] = metadata.byteslice(index, tag_length).strip
+        index += tag_length
       end
       tags
     end
@@ -35,6 +35,10 @@ class MP3
   private
     def tag_present?
       IO.read(@song)[-128..-126] == 'TAG'
+    end
+    
+    def read_metadata
+      IO.read(@song)[-125..-1]
     end
 end
 
