@@ -107,7 +107,7 @@ class MP3
   def id3_tags
     if tag_present?
       metadata = read_metadata
-      @tags = {}
+      @tags = Hash.new("No Information Known")
       parse(metadata)
       @tags[:track_number] = parse_track_tag
       @tags[:genre] = parse_genre_tag
@@ -129,7 +129,7 @@ class MP3
       SCHEMA.each do |tag_name, tag_length|
         tag_value = metadata.byteslice(index, tag_length)
         tag_value.strip! unless tag_name == :track_number
-        @tags[tag_name] = tag_value.empty? ? "No Information Known" : tag_value
+        @tags[tag_name] = tag_value unless tag_value.empty?
         index += tag_length
       end
     end
