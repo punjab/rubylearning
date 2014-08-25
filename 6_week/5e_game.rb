@@ -10,8 +10,7 @@
 def save_game(file)
   score = 1000
   open(file, 'w') do |f|
-    f.puts(score)
-    f.puts(Time.new.to_i)
+    f.puts score, Time.new.to_i
   end
 end
 
