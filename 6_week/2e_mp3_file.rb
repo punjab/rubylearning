@@ -136,7 +136,8 @@ class MP3
     
     def parse_track_tag
       zero_byte, track = @tags[:track_number].unpack('c*')
-      zero_byte == 0 ? track : nil
+      # zero_byte == 0 ? track : nil
+      zero_byte.zero? && track || nil
     end
     
     def parse_genre_tag
