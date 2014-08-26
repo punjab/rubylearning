@@ -7,7 +7,7 @@
   Licensed under the MIT license
 =end
 
-module TextAnalyzer
+class TextAnalyzer
   
   require 'logger'
 
@@ -37,30 +37,25 @@ REPORT
               (analysis_result[:sentence_count]/analysis_result[:paragraph_count].to_f)
     output
   end
-
-  def self.start
-    print "Please provide a name for log file. Default (log_file.log): "
-    logfile = gets.chomp
-    logfile = 'log_file.log' if logfile.empty?
-    $LOG = Logger.new(logfile, 'monthly')
-    $LOG.level = Logger::INFO
-
-    print "File to be analyzed? "
-    filename = gets.chomp
-    begin
-      corpora = IO.read(filename)
-      # a = Analyzer.new
-      analysis_result = analyze(corpora)
-      puts report(analysis_result)
-      $LOG.info("Analysis report on #{filename} successful.")
-    rescue Exception => e
-      $LOG.error "#{e.class} error occured: #{e.message}"
-      puts "#{e.class} error Occured. Refer log file for details!"
-    end
-  end 
 end
 
 begin
-  TextAnalyzer.start
+  print "Please provide a name for log file. Default (log_file.log): "
+  logfile = gets.chomp
+  logfile = 'log_file.log' if logfile.empty?
+  $LOG = Logger.new(logfile, 'monthly')
+  $LOG.level = Logger::INFO
+
+  print "File to be analyzed? "
+  filename = gets.chomp
+  begin
+    corpora = IO.read(filename)
+    analysis_result = TextAnalyzer.analyze(corpora)
+    puts TextAnalyzer.report(analysis_result)
+    $LOG.info("Analysis report on #{filename} successful.")
+  rescue Exception => e
+    $LOG.error "#{e.class} error occured: #{e.message}"
+    puts "#{e.class} error Occured. Refer log file for details!"
+  end
 end  if  __FILE__ == $0
 
